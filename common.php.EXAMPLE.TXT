@@ -1,0 +1,347 @@
+<?php
+/*
+ * This is an example of the common.php file.
+ * You will need to modify it for your site before using it.
+ *
+ */
+
+
+// Global variables
+$host = "db.yourwebsite.org";
+$username = "database_username";
+$passwd = "database_password";
+$database = "yourwebsite_org";
+$webmaster = "Your Name";
+$webmaster_email = "yourname@null.net";
+$pagetitle = "Your Web Site";
+$siteurl = "http://www.yourwebsite.org";
+$webroot = "/home/yourwebsite/yourwebsite.org";
+
+/* common.php */
+/* Functions used by all scripts */
+
+function connect_to_db()
+{
+    global $host, $username, $passwd, $database;
+
+    if (!($mysql = mysqli_connect($host, $username, $passwd)))
+    {
+        return 0;
+    }
+
+    if (!($db = mysqli_select_db($mysql, $database)))
+    {
+        return 0;
+    }
+
+    return $mysql;
+}
+
+function show_error($msg)
+{
+    echo "<h1><font color=\"#CC0000\">Error: $msg</font></h1>\n";
+    echo "<p>Please contact <a href=\"mailto:" . $webmaster_email . "\">" . $webmaster . "</a> and report this problem.</p>\n";
+    echo "<p>Thus you will help in solving the problem as soon as possible. Thank you.</p>\n";
+
+    return;
+}
+
+function convert_date($sqldate)
+{
+    $unixdate = strtotime($sqldate);
+    $date = date('Y-m-d', $unixdate);
+
+    return $date;
+}
+
+function uscore_to_space($string)
+{
+    $temp = explode("_", $string);
+    $str = implode(" ", $temp);
+
+    return $str;
+}
+
+function space_to_uscore($string)
+{
+    $temp = explode(" ", $string);
+    $str = implode("_", $temp);
+
+    return $str;
+}
+
+function space_to_plus($string)
+{
+    $temp = explode(" ", $string);
+    $temp = implode("+", $temp);
+    $temp = explode("&", $temp);
+    $str = implode("%26", $temp);
+
+    return $str;
+}
+
+function update_hit_count($link_id)
+{
+    global $webroot;
+	$link_id = intval($link_id);
+
+    $ip_counted = FALSE;
+
+    $db = connect_to_db();
+
+    $query = mysqli_query($db, "SELECT url, hits FROM yourwebsite_links WHERE id = " . intval($link_id) . ";");
+    $result = mysqli_fetch_array($query);
+    $rows = mysqli_num_rows($query);
+
+    if(!$rows)
+    {
+        header("Location: http://www.yourwebsite.org/");
+    }
+    else
+    {
+        $remote_addr = getenv("REMOTE_ADDR");
+
+        if (file_exists($webroot . "/data/hits/" . $link_id))
+        {
+            $ips = file($webroot . "/data/hits/" . $link_id);
+            $ip = $ips[0];
+            do
+            {
+                if ($ip == ($remote_addr . "\n"))
+                {
+                    $ip_counted = TRUE;
+                }
+            }
+            while (($ip = next($ips)) && ($ip_counted == FALSE));
+        }
+
+        if ($ip_counted == FALSE)
+        {
+            $fp = fopen($webroot . "/data/hits/" . $link_id, "a");
+            fputs($fp, "$remote_addr\n");
+            fclose($fp);
+
+            $query = mysqli_query($db, "UPDATE yourwebsite_links SET hits  = " . intval(strval($result["hits"]) + 1) . " WHERE id = " . intval($link_id) . ";");
+        }
+    }
+
+    mysqli_close($db);
+}
+
+function make_menu()
+{
+
+    return;
+}
+
+function make_header($pagetitle, $layout="default", $keywords="dice", $link_id = "")
+{
+
+    if (isset($link_id) && !empty($link_id))
+    {
+        update_hit_count($link_id);
+    }
+
+    if($layout == "article")
+    {
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title><?php echo $pagetitle; ?></title>
+</head>
+<body>
+
+
+<?php
+
+    }
+    else
+    {
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
+        echo "<html>\n";
+        echo "<head>\n";
+        echo "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+        echo "  <title>".$pagetitle."</title>\n";
+        echo "</head>\n";
+        echo "<body>\n";
+    }
+    return;
+}
+
+function make_body($layout)
+{
+
+    make_menu();
+
+
+    if($layout == "admin")
+    {
+
+    }
+
+
+    return;
+}
+
+function make_footer($link_index=0, $layout="default")
+{
+    if ($layout == "article")
+    {
+
+		if ($link_index > 0)
+		{
+
+		}
+		else
+		{
+
+		}
+
+?>
+
+        </body>
+        </html>
+
+<?php
+
+    }
+    else
+    {
+        echo "</body>\n";
+        echo "</html>\n";
+    }
+    return;
+}
+
+// Escape variable to make safe
+// Note: requires mysql connection
+function escape_smart($value)
+{
+    if (is_array($value))
+    {
+        return array_map("escape_smart", $value);
+    }
+    else
+    {
+        if (get_magic_quotes_gpc())
+        {
+            $value = stripslashes($value);
+        }
+
+        if (!is_numeric($value) || $value[0] == '0' )
+        {
+            $value = mysqli_real_escape_string($db, $value);
+        }
+
+        return $value;
+    }
+}
+
+// Escape and quote variable to make safe
+// Note: requires mysql connection
+function quote_smart($value)
+{
+    if (is_array($value))
+    {
+        return array_map("quote_smart", $value);
+    }
+    else
+    {
+        if (!is_numeric($value) || $value[0] == '0' )
+        {
+            $value = "'" . escape_smart($value) . "'";
+        }
+
+        return $value;
+    }
+}
+
+function strip_gpc_slashes($input)
+{
+    if ( !get_magic_quotes_gpc() || ( !is_string($input) && !is_array($input) ) )
+    {
+        return $input;
+    }
+
+    if ( is_string($input) )
+    {
+        $output = stripslashes($input);
+    }
+    elseif ( is_array($input) )
+    {
+        $output = array();
+        foreach ($input as $key => $val)
+        {
+            $new_key = stripslashes($key);
+            $new_val = strip_gpc_slashes($val);
+            $output[$new_key] = $new_val;
+        }
+    }
+
+    return $output;
+}
+
+function shortenText($text,$length = 25)
+{
+    $text = $text." ";
+    if(strlen($text) > $length)
+    {
+        $text = substr($text,0,$length);
+        $text = substr($text,0,strrpos($text,' '));
+        $text = $text."...";
+    }
+    return $text;
+}
+
+/**
+ * Moves values into an array, trimming as it does so.
+ *
+ * @access  public
+ * @param   array  $fromVariable    The variable or array from which values are moved.
+ * @param   array  $toVariable      The array to which values are moved.
+ * @return  array  $toVariable      The array to which values were moved.
+ */
+function moveTrimmedToArray($fromVariable, $toVariable = array())
+{
+    if (is_array($fromVariable))
+    {
+        foreach ($fromVariable as $new_field => $new_value)
+        {
+            if (isset($fromVariable[$new_field]) && (!empty($fromVariable[$new_field]) || ($fromVariable[$new_field] === 0) || ($fromVariable[$new_field] === '0')))
+            {
+                if (is_array($fromVariable[$new_field]))
+                {
+                    $toVariable[$new_field] = array();
+                    $toVariable[$new_field] = moveTrimmedToArray($fromVariable[$new_field], $toVariable[$new_field]);
+                }
+                else
+                {
+                    $toVariable[$new_field] =  trim($fromVariable[$new_field]);
+                }
+            }
+        }
+    }
+    else
+    {
+        $toVariable[$fromVariable] =  trim($fromVariable);
+    }
+
+    return $toVariable;
+}
+
+$vars = array_merge($_GET, $_POST);
+$data = array();
+
+foreach ($vars as $new_field => $new_value)
+{
+    if (isset($vars[$new_field]) && !empty($vars[$new_field]))
+    {
+        $data[$new_field] =  $vars[$new_field];
+    }
+}
+
+?>
