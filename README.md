@@ -3,7 +3,7 @@ Copyright © 2005-2023 Brandon Blackmoor &lt;<bblackmoor@blackgate.net>&gt;<br /
 Licensed under the GNU General Public License v3.0: https://www.gnu.org/licenses/gpl-3.0.en.html<br />
 Source: https://github.com/bblackmoor/securedice
 
-RPG Library Secure Dice is a free online dice roller which will generate random numbers, generate a MD5 checksum of the results, and email those results to the email address(es) you specify.
+RPG Library Secure Dice is a free online dice roller which will generate cryptographically secure pseudo-random integers, generate a MD5 checksum of the results, and email those results to the email address(es) you specify.
 
 Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the verification page to ensure that the dice results are genuine.
 
