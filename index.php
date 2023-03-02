@@ -1,5 +1,5 @@
 <?php
-ini_set( 'display_errors', 1 );
+//ini_set( 'display_errors', 1 );
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -26,98 +26,84 @@ if (!isset($data["op"]) || $data["op"] == '--')
 // dice_quantity
 if (!isset($data["dq"]) || $data["dq"] == '--')
 {
-#	$data['dice_quantity'] = $data["dq"] = '4';
 	$data["dq"] = '4';
 }
 
 // minus_dice_quantity
 if (!isset($data["mdq"]) || $data["mdq"] == '--')
 {
-#	$data['minus_dice_quantity'] = $data["mdq"] = '0';
 	$data["mdq"] = '0';
 }
 
 // fudge_dice_quantity
 if (!isset($data["fdq"]) || $data["fdq"] == '--')
 {
-#	$data['fudge_dice_quantity'] = $data["fdq"] = '0';
 	$data["fdq"] = '0';
 }
 
 // dice_size
 if (!isset($data["ds"]) || $data["ds"] == '--')
 {
-#	$data['dice_size'] = $data["ds"] = '6';
 	$data["ds"] = '6';
 }
 
 // minus_dice_size
 if (!isset($data["mds"]) || $data["mds"] == '--')
 {
-#	$data['minus_dice_size'] = $data["mds"] = '6';
 	$data["mds"] = '6';
 }
 
 // dice_modify
 if (!isset($data["dm"]) || $data["dm"] == '--')
 {
-#	$data['dice_modify'] = $data["dm"] = '0';
 	$data["dm"] = '0';
 }
 
 // minus_dice_modify
 if (!isset($data["mdm"]) || $data["mdm"] == '--')
 {
-#	$data['minus_dice_modify'] = $data["mdm"] = '0';
 	$data["mdm"] = '0';
 }
 
 // dice_deviation
 if (!isset($data["dd"]) || $data["dd"] == '--')
 {
-#	$data['dice_deviation'] = $data["dd"] = 'none';
 	$data["dd"] = 'none';
 }
 
 // minus_dice_deviation
 if (!isset($data["mdd"]) || $data["mdd"] == '--')
 {
-#	$data['minus_dice_deviation'] = $data["mdd"] = 'none';
 	$data["mdd"] = 'none';
 }
 
 // dice_sets
 if (!isset($data["dt"]) || $data["dt"] == '--')
 {
-#	$data['dice_sets'] = $data["dt"] = '7';
 	$data["dt"] = '7';
 }
 
 // sort dice_sets
 if (!isset($data["sdt"]) || $data["sdt"] == '--')
 {
-#	$data['sort_dice_sets'] = $data["sdt"] = false;
 	$data["sdt"] = false;
 }
 
 // email to
 if (!isset($data["to"]) || $data["to"] == '--')
 {
-#	$data['dice_mailto'] = $data["to"] = '';
 	$data["to"] = '';
 }
 
 // cc to
 if (!isset($data["gm"]) || $data["gm"] == '--')
 {
-#	$data['dice_mailgm'] = $data["gm"] = '';
 	$data["gm"] = '';
 }
 
 // email subject
 if (!isset($data["sub"]) || $data["sub"] == '--')
 {
-#	$data['dice_subject'] = $data["sub"] = '';
 	$data["sub"] = '';
 }
 
@@ -1108,10 +1094,11 @@ function mailDiceResults($data)
 {
 	global $data;
 
-	$data["smtp_server"]   = 'smtp.dreamhost.com';
-	$data["from_name"]     = 'RPG Library';
-	$data["from_email"]    = 'webmaster@rpglibrary.org';
-	$data["from_password"] = '^BvP9gzb';
+	// variables defined in common.php
+	//$data["smtp_server"]
+	//$data["from_name"]
+	//$data["from_email"]
+	//$data["from_password"]
 
 	$data["body"]          = formatEmailMessage($data["message"]);
 
@@ -1267,6 +1254,7 @@ function showDiceResults($data)
 
 	<p>
 	<input type="button" name="roll_again" value="Roll again" onclick="location.href='<?php echo $data['page_url']; ?>';" />
+    <input type="button" name="verify_roll" value="Verify roll" onclick="location.href='verify.php';" />
 	</p>
 
 <?php

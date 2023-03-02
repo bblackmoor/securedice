@@ -44,12 +44,16 @@ function displayVerifyForm()
     </td>
     </tr>
     <tr>
-    <td align="right">
+    <td valign="top">
+	</td>
+    <td valign="top">
     <input type="hidden" name="op" value="results" />
     <input type="submit" name="submit" id="submit" value="Verify" />
     </td>
     </tr>
     </table>
+
+	<input type="button" name="roll_again" value="Roll again" onclick="location.href='index.php';" />
 
     </form>
 
@@ -73,6 +77,8 @@ function formatDiceResults($results)
     $results_html = str_replace("</p><p>","</p>\n\n<p>", $results_html);
     $results_html = str_replace("<br />","<br />\n", $results_html);
     $results_html = "<p>" . $results_html . "</p>\n\n";
+
+    $results_html = str_replace("\n","<br />\n", $results);
 
     return $results_html;
 }
@@ -127,7 +133,8 @@ function showVerifyResults($data)
     </table>
 
     <p>
-    <input type="button" name="verify_again" value="Verify again" onclick="location.href='<?php echo $_SERVER['PHP_SELF']; ?>';" />
+    <input type="button" name="roll_again" value="Roll again" onclick="location.href='index.php';" />
+    <input type="button" name="verify_again" value="Verify again" onclick="location.href='verify.php';" />
     </p>
 
 <?php
@@ -190,10 +197,6 @@ switch($data["op"])
 		<li>PHP: <a href="https://www.php.net/">https://www.php.net/</a></li>
 		<li>PHPMailer: <a href="https://github.com/PHPMailer/PHPMailer">https://github.com/PHPMailer/PHPMailer</a></li>
 	</ul>
-
-    <p>
-    <a href="index.php">Return to Secure Dice</a>
-    </p>
 
 <?php
 

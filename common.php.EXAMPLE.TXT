@@ -5,8 +5,10 @@
  *
  */
 
-
 // Global variables
+$vars = array_merge($_GET, $_POST);
+$data = array();
+
 $host = "db.yourwebsite.org";
 $username = "database_username";
 $passwd = "database_password";
@@ -16,6 +18,21 @@ $webmaster_email = "yourname@null.net";
 $pagetitle = "Your Web Site";
 $siteurl = "http://www.yourwebsite.org";
 $webroot = "/home/yourwebsite/yourwebsite.org";
+
+$data["smtp_server"]   = 'smtp.yourwebsite.com';
+$data["from_name"]     = 'Your Website';
+$data["from_email"]    = 'webmaster@yourwebsite.org';
+$data["from_password"] = 'smtp_password';
+
+foreach ($vars as $new_field => $new_value)
+{
+    global $data;
+
+    if (isset($vars[$new_field]) && !empty($vars[$new_field]))
+    {
+        $data[$new_field] =  $vars[$new_field];
+    }
+}
 
 /* common.php */
 /* Functions used by all scripts */
@@ -331,17 +348,6 @@ function moveTrimmedToArray($fromVariable, $toVariable = array())
     }
 
     return $toVariable;
-}
-
-$vars = array_merge($_GET, $_POST);
-$data = array();
-
-foreach ($vars as $new_field => $new_value)
-{
-    if (isset($vars[$new_field]) && !empty($vars[$new_field]))
-    {
-        $data[$new_field] =  $vars[$new_field];
-    }
 }
 
 ?>
