@@ -1,12 +1,13 @@
 <?php
-//ini_set( 'display_errors', 1 );
+ini_set( 'display_errors', 1 );
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 // Load composer's autoloader to load PHPMailer
-require '/home/rpglibrary/rpglibrary.org/software/phpmailer/vendor/autoload.php';
+require '../phpmailer/vendor/autoload.php';
 
 // Load site's database settings
 require "../../include/common.php";
@@ -16,7 +17,7 @@ $keywords   = "secure,dice,roller,roleplaying,role-playing,game";
 
 //$vars = array_merge($_GET, $_POST);
 //$data = array();
-$data = moveTrimmedToArray($vars, $data);
+//$data = moveTrimmedToArray($vars, $data);
 
 if (!isset($data["op"]) || $data["op"] == '--')
 {
@@ -142,8 +143,8 @@ function storeDiceResults($message)
 /**
  * Stores tally for dice rolled in database.
  *
- * @access  public
- * @param   string  $data   Dice roll data
+ * @access  public	
+ * @param   array	$data		Dice roll data
  */
 function storeDiceRolled($data)
 {
@@ -172,8 +173,9 @@ function storeDiceHash($message)
  * Displays dice roll form.
  *
  * @access  public
+ * @param   array	$data		Dice roll data
  */
-function displayDiceForm()
+function displayDiceForm($data)
 {
 	global $data;
 
@@ -194,7 +196,7 @@ function displayDiceForm()
 
 <?php
 
-for ($i = 1; $i <=1000; $i++)
+for ($i = 1000; $i >= 1; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -205,17 +207,17 @@ for ($i = 1; $i <=1000; $i++)
 	
 	echo '>' . $i . '</option>' . "\n";
 
-	if ($i >= 100) 
+	if ($i > 100) 
 	{ 
-		$i = $i + 899; 
+		$i = $i - 899; 
 	} 
-	else if ($i >= 50) 
+	else if ($i > 50) 
 	{ 
-		$i = $i + 9; 
+		$i = $i - 9; 
 	} 
-	else if ($i >= 20) 
+	else if ($i > 20) 
 	{ 
-		$i = $i + 4; 
+		$i = $i - 4; 
 	} 
 }
 
@@ -226,7 +228,7 @@ for ($i = 1; $i <=1000; $i++)
 
 <?php
 
-for ($i = 2; $i <=1000; $i++)
+for ($i = 1000; $i >= 2; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -237,17 +239,17 @@ for ($i = 2; $i <=1000; $i++)
 	
 	echo '>' . $i . '</option>' . "\n";
 
-	if ($i >= 100) 
+	if ($i > 100) 
 	{ 
-		$i = $i + 899; 
+		$i = $i - 899; 
 	} 
-	else if ($i >= 50) 
+	else if ($i > 50) 
 	{ 
-		$i = $i + 9; 
+		$i = $i - 9; 
 	} 
-	else if ($i >= 20) 
+	else if ($i > 20) 
 	{ 
-		$i = $i + 4; 
+		$i = $i - 4; 
 	} 
 }
 
@@ -258,7 +260,7 @@ for ($i = 2; $i <=1000; $i++)
 
 <?php
 
-for ($i = -40; $i <=40; $i++)
+for ($i = 40; $i >= -40; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -302,7 +304,7 @@ for ($i = -40; $i <=40; $i++)
 
 <?php
 
-for ($i = 0; $i <=1000; $i++)
+for ($i = 1000; $i >= 0; $i--)
 {
 	echo '<option value="' . $i . '" ';
 
@@ -313,17 +315,17 @@ for ($i = 0; $i <=1000; $i++)
 	
 	echo '>' . $i . '</option>' . "\n";
 
-	if ($i >= 100) 
+	if ($i > 100) 
 	{ 
-		$i = $i + 899; 
+		$i = $i - 899; 
 	} 
-	else if ($i >= 50) 
+	else if ($i > 50) 
 	{ 
-		$i = $i + 9; 
+		$i = $i - 9; 
 	} 
-	else if ($i >= 20) 
+	else if ($i > 20) 
 	{ 
-		$i = $i + 4; 
+		$i = $i - 4; 
 	} 
 }
 
@@ -334,7 +336,7 @@ for ($i = 0; $i <=1000; $i++)
 
 <?php
 
-for ($i = 2; $i <=1000; $i++)
+for ($i = 1000; $i >= 2; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -345,17 +347,17 @@ for ($i = 2; $i <=1000; $i++)
 	
 	echo '>' . $i . '</option>' . "\n";
 
-	if ($i >= 100) 
+	if ($i > 100) 
 	{ 
-		$i = $i + 899; 
+		$i = $i - 899; 
 	} 
-	else if ($i >= 50) 
+	else if ($i > 50) 
 	{ 
-		$i = $i + 9; 
+		$i = $i - 9; 
 	} 
-	else if ($i >= 20) 
+	else if ($i > 20) 
 	{ 
-		$i = $i + 4; 
+		$i = $i - 4; 
 	} 
 }
 
@@ -367,7 +369,7 @@ for ($i = 2; $i <=1000; $i++)
 
 <?php
 
-for ($i = -40; $i <=40; $i++)
+for ($i = 40; $i >= -40; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -414,7 +416,7 @@ for ($i = -40; $i <=40; $i++)
 
 <?php
 
-for ($i = 0; $i <=5; $i++)
+for ($i = 5; $i >=0; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -442,7 +444,7 @@ for ($i = 0; $i <=5; $i++)
 
 <?php
 
-for ($i = 1; $i <=1000; $i++)
+for ($i = 1000; $i >=1; $i--)
 {
 	echo '<option value="' . $i . '" ';
 	
@@ -453,17 +455,17 @@ for ($i = 1; $i <=1000; $i++)
 	
 	echo '>' . $i . '</option>' . "\n";
 
-	if ($i >= 100) 
+	if ($i > 100) 
 	{ 
-		$i = $i + 899; 
+		$i = $i - 899; 
 	} 
-	else if ($i >= 50) 
+	else if ($i > 50) 
 	{ 
-		$i = $i + 9; 
+		$i = $i - 9; 
 	} 
-	else if ($i >= 20) 
+	else if ($i > 20) 
 	{ 
-		$i = $i + 4; 
+		$i = $i - 4; 
 	} 
 }
 
@@ -570,7 +572,7 @@ for ($i = 1; $i <=1000; $i++)
 	</table>
 
 	<p>Here is an example of a URL which pre-sets some of these values:</p>
-	<pre><a href="https://www.rpglibrary.org/software/securedice/?dq=7&amp;ds=4&amp;dt=5&amp;to=bblackmoor@blackgate.net&amp;sub=This%20is%20a%20test">https://www.rpglibrary.org/software/securedice/?dq=7&amp;ds=4&amp;dt=5&amp;to=bblackmoor@blackgate.net&amp;sub=This%20is%20a%20test</a></pre>
+	<pre><a href="https://www.rpglibrary.org/software/securedice/?dq=7&amp;ds=4&amp;dt=5&amp;to=yourname@example.com&amp;sub=This%20is%20a%20test">https://www.rpglibrary.org/software/securedice/?dq=7&amp;ds=4&amp;dt=5&amp;to=yourname@example.com&amp;sub=This%20is%20a%20test</a></pre>
 	
 <?php
 
@@ -585,23 +587,30 @@ for ($i = 1; $i <=1000; $i++)
  */
 function isEmailValid($email_address = '')
 {
+	$validity = false;
+
 	if (empty($email_address))
 	{
 		$validity = false;
 	}
-	else if (empty($mailDomain))
+	else
 	{
-		$validity = false;
-	}
-	else if (checkdnsrr($mailDomain, "MX"))
-	{
-		if (preg_match("/\r/i", $email_address) || preg_match("/\n/i", $email_address))
+		list($mailName, $mailDomain) = preg_split("/@/", $email_address);
+
+		if (empty($mailName) || empty($mailDomain))
 		{
 			$validity = false;
 		}
-		else
+		else if (checkdnsrr($mailDomain, "MX"))
 		{
-			$validity = true;
+			if (preg_match("/\r/i", $email_address) || preg_match("/\n/i", $email_address))
+			{
+				$validity = false;
+			}
+			else
+			{
+				$validity = true;
+			}
 		}
 	}
 	
@@ -670,7 +679,7 @@ function formatEmailMessage($email_message = '')
  * Generates dice roll results.
  *
  * @access  public
- * @param   string  $data		   Dice roll data
+ * @param   array	$data		Dice roll data
  */
 function generateDiceResults($data)
 {
@@ -1010,7 +1019,7 @@ function generateDiceResults($data)
  * Generates Fudge dice roll results.
  *
  * @access  public
- * @param   string  $data		   Dice roll data
+ * @param   array	$data		Dice roll data
  */
 function generateFudgeDiceResults($data)
 {
@@ -1088,7 +1097,7 @@ function generateFudgeDiceResults($data)
  * Mails dice roll results to selected recipients.
  *
  * @access  public
- * @param   string  $data		   Dice roll data
+ * @param   array	$data		Dice roll data
  */
 function mailDiceResults($data)
 {
@@ -1100,7 +1109,7 @@ function mailDiceResults($data)
 	//$data["from_email"]
 	//$data["from_password"]
 
-	$data["body"]          = formatEmailMessage($data["message"]);
+	$data["body"]      = formatEmailMessage($data["message"]);
 
 	// Verify email addresses
 	if (isset($data["dice_mailto"]) && isEmailValid($data["dice_mailto"]))
@@ -1130,16 +1139,18 @@ function mailDiceResults($data)
 	if (strlen($data["to"]) > 4)
 	{
 		$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+
 		try
 		{
 			// Server settings
-			$mail->SMTPDebug = 0;                                 // 2 = Enable verbose debug output
+			$mail->SMTPDebug = 0;                                 // 1: client; 2: client and server; 3: client, server, and connection; 4: low-level information.
+			//$mail->Debugoutput = 'echo';
 			$mail->isSMTP();                                      // Set mailer to use SMTP
 			$mail->Host = $data["smtp_server"];                   // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
 			$mail->Username = $data["from_email"];                // SMTP username
 			$mail->Password = $data["from_password"];             // SMTP password
-			$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption, PHPMailer::ENCRYPTION_SMTPS also accepted
 			$mail->Port = 587;                                    // TCP port to connect to
 
 			// Recipients
@@ -1171,7 +1182,6 @@ function mailDiceResults($data)
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 			$mail->send();
-			//echo 'Dice roll results have been sent';
 		}
 		catch (Exception $e)
 		{
@@ -1186,7 +1196,7 @@ function mailDiceResults($data)
  *
  * @access  public
  * @param   string  $results        Dice roll results
- * @param   string  $results_html   HTML-formatted dice roll results
+ * @return  string  $results_html   HTML-formatted dice roll results
  */
 function formatDiceResults($results)
 {
@@ -1205,8 +1215,7 @@ function formatDiceResults($results)
  * Displays dice roll results.
  *
  * @access  public
- * @param   string  $data		   Dice roll data
- * @return  string  $dice_results   Dice roll results
+ * @param   array	$data		Dice roll data
  */
 function showDiceResults($data)
 {
@@ -1309,7 +1318,8 @@ else
 	Copyright © 2005-2023 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
 	Licensed under the GNU General Public License v3.0:
 	<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a><br />
-	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a>
+	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a><br />
+	Last updated: <?php echo date("Y-m-d", filemtime(__FILE__)); ?>
     </p>
 
     <p>
@@ -1321,7 +1331,7 @@ else
     </p>
 
 	<!-- <p style="color: darkblue; border: double darkblue; margin: 15px; padding: 10px;">
-	<b>Note:</b> I have placed Secure Dice on Github. I probably should have done that a long time ago.<br /> -- bblackmoor, 2023-03-02
+	<b>Note:</b> Source is now in github.<br /> -- bblackmoor, 2023-03-02
 	</p> -->
 	
 <?php
@@ -1338,7 +1348,7 @@ else
 
 		case "select":
 		default:
-			displayDiceForm();
+			displayDiceForm($data);
 			break;
 	}
 

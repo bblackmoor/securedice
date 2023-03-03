@@ -7,7 +7,7 @@ $keywords   = "secure,dice,roller,roleplaying,role-playing,game";
 
 //$vars = array_merge($_GET, $_POST);
 //$data = array();
-$data = moveTrimmedToArray($vars, $data);
+//$data = moveTrimmedToArray($vars, $data);
 
 if (!isset($data["op"]))
 {
@@ -87,10 +87,9 @@ function formatDiceResults($results)
  * Displays dice roll verificaton results.
  *
  * @access  public
- * @param   string  $data           Dice roll data
  * @return  string  $verify_results   Dice roll results
  */
-function showVerifyResults($data)
+function showVerifyResults()
 {
     global $data, $db;
 
@@ -152,7 +151,8 @@ make_header($pagetitle, "article", $keywords);
 	Copyright © 2005-2023 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
 	Licensed under the GNU General Public License v3.0:
 	<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a><br />
-	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a>
+	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a><br />
+	Last updated: <?php echo date("Y-m-d", filemtime(__FILE__)); ?>
     </p>
 
     <p>
@@ -168,7 +168,7 @@ make_header($pagetitle, "article", $keywords);
 switch($data["op"])
 {
     case "results":
-        showVerifyResults($data);
+        showVerifyResults();
         break;
 
     case "verify":

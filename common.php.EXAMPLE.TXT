@@ -9,30 +9,22 @@
 $vars = array_merge($_GET, $_POST);
 $data = array();
 
-$host = "db.yourwebsite.org";
+$host = "db.example.com";
 $username = "database_username";
 $passwd = "database_password";
-$database = "yourwebsite_org";
+$database = "example_com";
 $webmaster = "Your Name";
-$webmaster_email = "yourname@null.net";
+$webmaster_email = "your.name@example.com";
 $pagetitle = "Your Web Site";
-$siteurl = "http://www.yourwebsite.org";
-$webroot = "/home/yourwebsite/yourwebsite.org";
+$siteurl = "https://www.example.com";
+$webroot = "/home/example/example.com";
 
-$data["smtp_server"]   = 'smtp.yourwebsite.com';
-$data["from_name"]     = 'Your Website';
-$data["from_email"]    = 'webmaster@yourwebsite.org';
-$data["from_password"] = 'smtp_password';
+$vars["smtp_server"]   = 'smtp.example.com';
+$vars["from_name"]     = 'Your Web Site';
+$vars["from_email"]    = 'webmaster@example.com';
+$vars["from_password"] = 'smtp_password';
 
-foreach ($vars as $new_field => $new_value)
-{
-    global $data;
-
-    if (isset($vars[$new_field]) && !empty($vars[$new_field]))
-    {
-        $data[$new_field] =  $vars[$new_field];
-    }
-}
+$data = moveTrimmedToArray($vars, $data);
 
 /* common.php */
 /* Functions used by all scripts */
@@ -112,7 +104,7 @@ function update_hit_count($link_id)
 
     if(!$rows)
     {
-        header("Location: http://www.yourwebsite.org/");
+        header("Location: https://www.yourwebsite.org/");
     }
     else
     {
