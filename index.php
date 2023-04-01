@@ -713,6 +713,11 @@ function generateDiceResults($data)
 		$data["message"] .= ", using one of them as a [stunt die]";
 	}
 
+	if (!isset($data["minus_dice_quantity"]))
+	{
+		$data["minus_dice_quantity"] = 0;
+	}
+
 	if ($data["minus_dice_quantity"] > 0)
 	{
 		$data["message"] .= ', subtract ' . $data["minus_dice_quantity"] . "d" . $data["minus_dice_size"];
@@ -907,7 +912,13 @@ function generateDiceResults($data)
 			}
 		}
 
-		$data["roll"]["subtotal"] = $data["roll"]["subtotal"] + $data["dice_modify"];
+		if (isset($data["roll"]["subtotal"]))
+		{
+			$data["roll"]["subtotal"] += intval($data["dice_modify"]);
+		} else {
+			$data["roll"]["subtotal"] = intval($data["dice_modify"]);
+		}
+
 		$data["message"] .= $data["roll"]["subtotal"] . "\n";
 
 		if ($data["minus_dice_quantity"] > 0)
@@ -936,7 +947,7 @@ function generateDiceResults($data)
 				$data["minus_roll"][$j - 1] = random_int(1, $data["minus_dice_size"]);
 			}
 
-			if ($data["sort_dice_sets"])
+			if (isset($data["sort_dice_sets"]) && $data["sort_dice_sets"])
 			{
 				rsort($data["minus_roll"]);
 			}
@@ -991,14 +1002,55 @@ function generateDiceResults($data)
 				if (!(($data["minus_dice_deviation"] == "highest") && ($j == $max_minus_key)) 
 						&& !(($data["minus_dice_deviation"] == "lowest") && ($j == $min_minus_key)))
 				{
-					$data["minus_roll"]["subtotal"] = $data["minus_roll"]["subtotal"] + $data["minus_roll"][$j];
+
+
+
+// XXX
+//echo "<pre>";
+//echo $j . "<br />";
+//echo "<pre>";
+
+
+
+
+
+					if (!isset($data["minus_roll"][$j]))
+					{
+						$data["minus_roll"][$j] = 0;
+					}
+
+					if (isset($data["minus_roll"]["subtotal"]))
+					{
+
+
+// XXX
+//echo "<pre>";
+//echo '$data["minus_roll"]["subtotal"] = ' . $data["minus_roll"]["subtotal"] . "<br />";
+//echo '$j = ' . $j . "<br />";
+//echo '$data["minus_roll"][$j] = ' . $data["minus_roll"][$j] . "<br />";
+//echo "<pre>";
+
+
+
+
+
+						$data["minus_roll"]["subtotal"] += intval($data["minus_roll"][$j]);
+					} else {
+						$data["minus_roll"]["subtotal"] = intval($data["minus_roll"][$j]);
+					}
 				}
 			}
 
-			$data["minus_roll"]["subtotal"] = $data["minus_roll"]["subtotal"] + $data["minus_dice_modify"];
+			if (isset($data["minus_roll"]["subtotal"]))
+			{
+				$data["minus_roll"]["subtotal"] += intval($data["minus_dice_modify"]);
+			} else {
+				$data["minus_roll"]["subtotal"] = intval($data["minus_dice_modify"]);
+			}
+
 			$data["message"] .= $data["minus_roll"]["subtotal"] . "\n";
 			
-			$data["roll"]["total"] = $data["roll"]["subtotal"] - $data["minus_roll"]["subtotal"];
+			$data["roll"]["total"] = $data["roll"]["subtotal"] - intval($data["minus_roll"]["subtotal"]);
 			$data["message"] .= "	Roll total: ";
 			$data["message"] .= $data["roll"]["subtotal"] . ' - ' . $data["minus_roll"]["subtotal"] . ' = ' . 
 					$data["roll"]["total"] . "\n\n";
@@ -1007,7 +1059,7 @@ function generateDiceResults($data)
 		else 
 		{
 			$data["message"] .= "	Roll total: ";
-			$data["roll"]["total"] = $data["roll"]["subtotal"];
+			$data["roll"]["total"] = intval($data["roll"]["subtotal"]);
 			$data["message"] .= $data["roll"]["total"] . "\n\n";
 		}
 	}
