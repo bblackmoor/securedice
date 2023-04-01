@@ -1002,18 +1002,6 @@ function generateDiceResults($data)
 				if (!(($data["minus_dice_deviation"] == "highest") && ($j == $max_minus_key)) 
 						&& !(($data["minus_dice_deviation"] == "lowest") && ($j == $min_minus_key)))
 				{
-
-
-
-// XXX
-//echo "<pre>";
-//echo $j . "<br />";
-//echo "<pre>";
-
-
-
-
-
 					if (!isset($data["minus_roll"][$j]))
 					{
 						$data["minus_roll"][$j] = 0;
@@ -1021,19 +1009,6 @@ function generateDiceResults($data)
 
 					if (isset($data["minus_roll"]["subtotal"]))
 					{
-
-
-// XXX
-//echo "<pre>";
-//echo '$data["minus_roll"]["subtotal"] = ' . $data["minus_roll"]["subtotal"] . "<br />";
-//echo '$j = ' . $j . "<br />";
-//echo '$data["minus_roll"][$j] = ' . $data["minus_roll"][$j] . "<br />";
-//echo "<pre>";
-
-
-
-
-
 						$data["minus_roll"]["subtotal"] += intval($data["minus_roll"][$j]);
 					} else {
 						$data["minus_roll"]["subtotal"] = intval($data["minus_roll"][$j]);
