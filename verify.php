@@ -21,6 +21,7 @@ if (!isset($data["op"]))
  */
 function displayVerifyForm()
 {
+    global $data;
 
 ?>
 
@@ -53,7 +54,7 @@ function displayVerifyForm()
     </tr>
     </table>
 
-	<input type="button" name="roll_again" value="Roll again" onclick="location.href='index.php';" />
+	<input type="button" name="roll_again" value="Roll Again" onclick="location.href='index.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>';" />
 
     </form>
 
@@ -132,8 +133,8 @@ function showVerifyResults()
     </table>
 
     <p>
-    <input type="button" name="roll_again" value="Roll again" onclick="location.href='index.php';" />
-    <input type="button" name="verify_again" value="Verify again" onclick="location.href='verify.php';" />
+    <input type="button" name="roll_again" value="Roll Again" onclick="location.href='index.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>';" />
+    <input type="button" name="verify_again" value="Verify Again" onclick="location.href='verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>';" />
     </p>
 
 <?php
@@ -156,7 +157,7 @@ make_header($pagetitle, "article", $keywords);
     </p>
 
     <p>
-    RPG Library Secure Dice is a free online dice roller which will generate cryptographically secure pseudo-random integers, generate a MD5 checksum of the results, and email those results to the email address(es) you specify.
+    <<?php echo $sitetitle; ?> Secure Dice is a free online dice roller which will generate cryptographically secure pseudo-random integers, generate a MD5 checksum of the results, and email those results to the email address(es) you specify.
     </p>
 
     <p>
@@ -180,11 +181,11 @@ switch($data["op"])
 ?>
 
     <p>
-    Never accept a roll sent from anyone other than the RPG Library server. If the other player forgot to include your email address when generating the dice roll, ask them to roll again: it's the only way to be sure that they sent you the results of a single die roll, rather than the best of many rolls.
+    Never accept a roll sent from anyone other than the <?php echo $sitetitle; ?> server. If the other player forgot to include your email address when generating the dice roll, ask them to roll again: it's the only way to be sure that they sent you the results of a single die roll, rather than the best of many rolls.
     <p>
 
 	<p>
-	Please whitelist or subscribe <b>webmaster@rpglibrary.org</b> to ensure delivery of your dice rolls.
+	Please whitelist or subscribe <b><?php echo $data['from_email']; ?></b> to ensure delivery of your dice rolls.
 	</p>
 
 	<h2>Server Requirements</h2>

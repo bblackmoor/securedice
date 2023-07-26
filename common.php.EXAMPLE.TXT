@@ -1,28 +1,57 @@
 <?php
+
+// Pre-push checklist:
+/*
+ * $host            = 'XXX'; // example: 'db.example.org'
+ * $username        = 'XXX'; // example: 'exampleuser'
+ * $passwd          = 'XXX'; // example: 'examplepassword'
+ * $database        = 'XXX'; // example: 'example_org'
+
+ * $webmaster       = 'XXX'; // example: 'Example Name'
+ * $webmaster_email = 'XXX'; // example: 'ename@example.net'
+ * $sitetitle       = 'XXX'; // example: 'Secure Dice Site Example'
+ * $siteslug        = 'XXX'; // example: 'sdexample'
+ * $pagetitle       = 'XXX'; // example: 'Secure Dice Page Example'
+ * $siteurl         = 'XXX'; // example: 'https://www.example.org'
+ * $webroot         = 'XXX'; // example: '/home/sdexample/example.org'
+
+ * $vars['smtp_server']   = 'XXX'; // example: 'smtp.example.com'
+ * $vars['from_name']     = 'XXX'; // example: 'Secure Dice Site Example'
+ * $vars['from_email']    = 'XXX'; // example: 'webmaster@example.org'
+ * $vars['from_password'] = 'XXX'; // example: 'examplepassword'
+ * $vars['data-sitekey']  = 'XXX'; // example: 'example0123456789'
+ */
+
+
 /*
  * This is an example of the common.php file.
  * You will need to modify it for your site before using it.
+ * Search for 'XXX'.
  *
  */
 
 // Global variables
 $vars = array_merge($_GET, $_POST);
 $data = array();
-
-$host = "db.example.com";
-$username = "database_username";
-$passwd = "database_password";
-$database = "example_com";
-$webmaster = "Your Name";
-$webmaster_email = "your.name@example.com";
-$pagetitle = "Your Web Site";
-$siteurl = "https://www.example.com";
-$webroot = "/home/example/example.com";
-
-$vars["smtp_server"]   = 'smtp.example.com';
-$vars["from_name"]     = 'Your Web Site';
-$vars["from_email"]    = 'webmaster@example.com';
-$vars["from_password"] = 'smtp_password';
+ 
+$host            = 'XXX'; // example: 'db.example.org'
+$username        = 'XXX'; // example: 'exampleuser'
+$passwd          = 'XXX'; // example: 'examplepassword'
+$database        = 'XXX'; // example: 'example_org'
+                                                                     
+$webmaster       = 'XXX'; // example: 'Example Name'
+$webmaster_email = 'XXX'; // example: 'ename@example.net'
+$sitetitle       = 'XXX'; // example: 'Secure Dice Site Example'
+$siteslug        = 'XXX'; // example: 'sdexample'
+$pagetitle       = 'XXX'; // example: 'Secure Dice Page Example'
+$siteurl         = 'XXX'; // example: 'https://www.example.org'
+$webroot         = 'XXX'; // example: '/home/sdexample/example.org'
+                                                                     
+$vars['smtp_server']   = 'XXX'; // example: 'smtp.example.com'
+$vars['from_name']     = 'XXX'; // example: 'Secure Dice Site Example'
+$vars['from_email']    = 'XXX'; // example: 'webmaster@example.org'
+$vars['from_password'] = 'XXX'; // example: 'examplepassword'
+$vars['data-sitekey']  = 'XXX'; // example: 'example0123456789'
 
 $data = moveTrimmedToArray($vars, $data);
 
@@ -31,7 +60,7 @@ $data = moveTrimmedToArray($vars, $data);
 
 function connect_to_db()
 {
-    global $host, $username, $passwd, $database;
+    global $host, $username, $passwd, $database, $siteslug;
 
     if (!($mysql = mysqli_connect($host, $username, $passwd)))
     {
@@ -91,20 +120,22 @@ function space_to_plus($string)
 
 function update_hit_count($link_id)
 {
-    global $webroot;
+    global $webmaster, $webmaster_email, $sitetitle, $pagetitle, $siteurl, $webroot;
+    global $siteslug;
+
 	$link_id = intval($link_id);
 
     $ip_counted = FALSE;
 
     $db = connect_to_db();
 
-    $query = mysqli_query($db, "SELECT url, hits FROM yourwebsite_links WHERE id = " . intval($link_id) . ";");
+    $query = mysqli_query($db, "SELECT url, hits FROM " . $siteslug . "_links WHERE id = " . intval($link_id) . ";");
     $result = mysqli_fetch_array($query);
     $rows = mysqli_num_rows($query);
 
     if(!$rows)
     {
-        header("Location: https://www.yourwebsite.org/");
+        header("Location: " . $siteurl );
     }
     else
     {
@@ -130,7 +161,7 @@ function update_hit_count($link_id)
             fputs($fp, "$remote_addr\n");
             fclose($fp);
 
-            $query = mysqli_query($db, "UPDATE yourwebsite_links SET hits  = " . intval(strval($result["hits"]) + 1) . " WHERE id = " . intval($link_id) . ";");
+            $query = mysqli_query($db, "UPDATE " . $siteslug . "_links SET hits  = " . intval(strval($result["hits"]) + 1) . " WHERE id = " . intval($link_id) . ";");
         }
     }
 
@@ -140,11 +171,53 @@ function update_hit_count($link_id)
 function make_menu()
 {
 
+    echo "    <table width=\"153\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+    echo "    <tr>\n";
+    echo "      <td rowspan=\"8\" width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"4\" height=\"5\" alt=\"\"></td>\n";
+    echo "      <td valign=\"top\"><img src=\"$siteurl/images/line_3399FF.gif\" border=\"0\" width=\"144\" height=\"1\" hspace=\"0\" vspace=\"0\" alt=\"\"></a></td>\n";
+    echo "      <td rowspan=\"8\" width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"4\" height=\"5\" alt=\"\"></td>\n";
+    echo "      <td rowspan=\"10\" width=\"1\" valign=\"top\"><img src=\"$siteurl/images/dot_000066.gif\" border=\"0\" width=\"1\" height=\"200\" alt=\"\"></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Games\" title=\"Games\" onMouseOver=\"displayImg('menu_games_on','menu_games')\" onMouseOut=\"displayImg('menu_games_off','menu_games')\"><img src=\"$siteurl/images/menu-games.gif\" name=\"menu_games\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Games\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Accessories\" title=\"Accessories\" onMouseOver=\"displayImg('menu_accessories_on','menu_accessories')\" onMouseOut=\"displayImg('menu_accessories_off','menu_accessories')\"><img src=\"$siteurl/images/menu-accessories.gif\" name=\"menu_accessories\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Accessories\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Articles\" title=\"Articles\" onMouseOver=\"displayImg('menu_articles_on','menu_articles')\" onMouseOut=\"displayImg('menu_articles_off','menu_articles')\"><img src=\"$siteurl/images/menu-articles.gif\" name=\"menu_articles\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Articles\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Discussion\" title=\"Discussion\" onMouseOver=\"displayImg('menu_discussion_on','menu_discussion')\" onMouseOut=\"displayImg('menu_discussion_off','menu_discussion')\"><img src=\"$siteurl/images/menu-discussion.gif\" name=\"menu_discussion\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Discussion\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Inspiration\" title=\"Inspiration\" onMouseOver=\"displayImg('menu_inspiration_on','menu_inspiration')\" onMouseOut=\"displayImg('menu_inspiration_off','menu_inspiration')\"><img src=\"$siteurl/images/menu-inspiration.gif\" name=\"menu_inspiration\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Inspiration\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><a href=\"$siteurl/main.php?showcat=Software\" title=\"Software\" onMouseOver=\"displayImg('menu_software_on','menu_software')\" onMouseOut=\"displayImg('menu_software_off','menu_software')\"><img src=\"$siteurl/images/menu-software.gif\" name=\"menu_software\" border=\"0\" width=\"144\" height=\"32\" hspace=\"0\" vspace=\"0\" alt=\"Software\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td valign=\"top\"><img src=\"$siteurl/images/line_3399FF.gif\" border=\"0\" width=\"144\" height=\"1\" hspace=\"0\" vspace=\"0\" alt=\"\"></a></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"4\" height=\"5\" alt=\"\"></td>\n";
+    echo "      <td width=\"144\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"144\" height=\"5\" alt=\"\"></td>\n";
+    echo "      <td width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"4\" height=\"5\" alt=\"\"></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_000066.gif\" border=\"0\" width=\"4\" height=\"1\" alt=\"\"></td>\n";
+    echo "      <td width=\"144\" valign=\"top\"><img src=\"$siteurl/images/dot_000066.gif\" border=\"0\" width=\"144\" height=\"1\" alt=\"\"></td>\n";
+    echo "      <td width=\"4\" valign=\"top\"><img src=\"$siteurl/images/dot_000066.gif\" border=\"0\" width=\"4\" height=\"1\" alt=\"\"></td>\n";
+    echo "    </tr>\n";
+    echo "    </table>\n";
+
     return;
 }
 
-function make_header($pagetitle, $layout="default", $keywords="dice", $link_id = "")
+function make_header($pagetitle, $layout="default", $keywords="roleplaying,role,playing,role-playing,ogl,oogl,games,gaming,rpg,rpgs,warlords,num,gor,norman,frazetta,fantasy,adventure,dungeons,dragons,D&amp;D,champions,vampire", $link_id = "")
 {
+    global $webmaster, $webmaster_email, $sitetitle, $siteurl, $webroot;
+    global $siteslug;
 
     if (isset($link_id) && !empty($link_id))
     {
@@ -161,9 +234,61 @@ function make_header($pagetitle, $layout="default", $keywords="dice", $link_id =
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><?php echo $pagetitle; ?></title>
+    <meta name="subject" content="<?php echo $pagetitle; ?>" />
+    <meta name="keywords" content="<?php echo $keywords; ?>" />
+    <meta name="copyright" content="Copyright 2000-2023 Brandon Blackmoor" />
+    <meta name="author" content="Brandon Blackmoor" />
+    <meta name="contact_addr" content="bblackmoor@blackgate.net" />
+    <meta name="rating" content="general" />
+    <meta name="robots" content="all" />
+    <link rel="stylesheet" type="text/css" href="/styles/basic.css" />
+    <link rel="SHORTCUT ICON" href="/images/<?php echo $siteslug; ?>.ico" />
+	<script data-ad-client="ca-pub-4678893198723665" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
+<div style="position: absolute; height: 24px; width: 24px; top: 0px; left: 0px;"><a href="<?php echo $siteurl; ?>" ><img src="<?php echo $siteurl; ?>/images/<?php echo $siteslug; ?>.png" border="0" width="24" height="24" alt="<?php echo $sitetitle; ?>" title="return to <?php echo $sitetitle; ?>" /></a></div>
+<div id="content" class="document">
 
+<?php
+
+    }
+    elseif($layout == "form")
+    {
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title><?php echo $pagetitle; ?></title>
+    <meta name="subject" content="<?php echo $pagetitle; ?>" />
+    <meta name="keywords" content="<?php echo $keywords; ?>" />
+    <meta name="copyright" content="Copyright 2000-2023 Brandon Blackmoor" />
+    <meta name="author" content="Brandon Blackmoor" />
+    <meta name="contact_addr" content="bblackmoor@blackgate.net" />
+    <meta name="rating" content="general" />
+    <meta name="robots" content="all" />
+    <link rel="stylesheet" type="text/css" href="/styles/basic.css" />
+    <link rel="SHORTCUT ICON" href="/images/<?php echo $siteslug; ?>.ico" />
+	<script data-ad-client="ca-pub-4678893198723665" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script type="text/javascript">
+		function validateRecaptcha() {
+			var response = grecaptcha.getResponse();
+			if (response.length === 0) {
+				alert("Try again to click the reCAPTCHA");
+				return false;
+			} else {
+				//alert("validated");
+				return true;
+			}
+		}
+	</script>
+</head>
+<body>
+<div style="position: absolute; height: 24px; width: 24px; top: 0px; left: 0px;"><a href="<?php echo $siteurl; ?>" ><img src="<?php echo $siteurl; ?>/images/<?php echo $siteslug; ?>.png" border="0" width="24" height="24" alt="<?php echo $sitetitle; ?>" title="return to <?php echo $sitetitle; ?>" /></a></div>
+<div id="content" class="document">
 
 <?php
 
@@ -175,43 +300,103 @@ function make_header($pagetitle, $layout="default", $keywords="dice", $link_id =
         echo "<head>\n";
         echo "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
         echo "  <title>".$pagetitle."</title>\n";
+        echo "  <meta name=\"subject\" content=\"".$pagetitle."\" />\n";
+        echo "  <meta name=\"keywords\" content=\"".$keywords."\" />\n";
+        echo "  <meta name=\"copyright\" content=\"Copyright 2000-2023 Brandon Blackmoor\" />\n";
+        echo "  <meta name=\"author\" content=\"Brandon Blackmoor\" />\n";
+        echo "  <meta name=\"contact-addr\" content=\"bblackmoor@blackgate.net\" />\n";
+        echo "  <meta name=\"rating\" content=\"general\" />\n";
+        echo "  <meta name=\"robots\" content=\"all\"  />\n";
+        echo "  <link rel=\"stylesheet\" type=\"text/css\" href=\"/styles/basic.css\" />\n";
+        echo "  <link rel=\"SHORTCUT ICON\" href=\"/images/icon.ico\" />\n";
+        echo "  <script src=\"/include/rollover.js\" type=\"text/javascript\" language=\"JavaScript\"></script>\n";
+        echo "  <script src=\"/include/imagecache.js\" type=\"text/javascript\" language=\"JavaScript\"></script>\n";
         echo "</head>\n";
         echo "<body>\n";
+        echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+        echo "<tr>\n";
+        echo "  <td width=\"39\" rowspan=\"2\" valign=\"top\"><a href=\"" . $siteurl . "/\"><img src=\"" . $siteurl . "/images/ul-books.gif\" border=\"0\" width=\"39\" height=\"65\" hspace=\"0\" vspace=\"0\" alt=\"Home\"></a></td>\n";
+        echo "  <td width=\"100%\" rowspan=\"2\" valign=\"top\" background=\"" . $siteurl . "/images/title-bkg.gif\" style=\"background: url('" . $siteurl . "/images/title-bkg.gif');\"><a href=\"" . $siteurl . "/\"><img src=\"" . $siteurl . "/images/title.gif\" border=\"0\" width=\"350\" height=\"65\" hspace=\"0\" vspace=\"0\" alt=\"" . $sitetitle . "\"></a></td>\n";
+        echo "  <td width=\"320\" valign=\"top\"><a href=\"" . $siteurl . "/\"><img src=\"" . $siteurl . "/images/ur-title.gif\" border=\"0\" width=\"320\" height=\"39\" hspace=\"0\" vspace=\"0\" alt=\"freeware & shareware RPGs\"></a></td>\n";
+        echo "</tr>\n";
+        echo "<tr>\n";
+        echo "  <td width=\"320\" valign=\"top\"><img src=\"" . $siteurl . "/images/ur-menu-bkg.gif\" border=\"0\" width=\"320\" height=\"26\" hspace=\"0\" vspace=\"0\" alt=\"\"></td>\n";
+        echo "</tr>\n";
+        echo "</table>\n";
+        echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+        echo "<tr>\n";
+        echo "  <td width=\"39\" rowspan=\"99\" valign=\"top\"><img src=\"" . $siteurl . "/images/letsplay.gif\" border=\"0\" width=\"39\" height=\"199\" hspace=\"0\" vspace=\"0\" alt=\"\"></td>\n";
+        echo "  <td valign=\"top\">\n";
     }
     return;
 }
 
 function make_body($layout)
 {
+    global $webmaster, $webmaster_email, $sitetitle, $pagetitle, $siteurl, $webroot;
+
+    echo "    <table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+    echo "    <tr>\n";
+    echo "      <td width=\"153\" rowspan=\"2\" valign=\"top\" background=\"" . $siteurl . "/images/body-bkg-l.gif\" style=\"background: #FFFFFF url('" . $siteurl . "/images/body-bkg-l.gif');\">\n";
 
     make_menu();
 
+	echo "      <p class=\"submenu\">\n";
+	echo "        <a href=\"/about.php\">About " . $sitetitle . "</a><br />\n";
+	echo "        <a href=\"/search.php\">Search Site</a><br />\n";
 
     if($layout == "admin")
     {
-
+        echo "      <a href=\"" . $siteurl . "/admin/index.php\">Administration</a><br />\n";
     }
 
+    echo "      </p>\n";
+    echo "      <p class=\"submenu\">\n";
+    echo "      &nbsp;<br />\n";
+    echo "      <script language=\"JavaScript1.2\" type=\"text/javascript\">show_any_widget();</script>\n";
+    echo "      </p>\n";
+    echo "      </td>\n";
+    echo "      <td colspan=\"3\" valign=\"top\" bgcolor=\"#000066\"  style=\"background: #000066;\"><img src=\"" . $siteurl . "/images/dot_000066.gif\" border=\"0\" width=\"5\" height=\"1\" alt=\"\"></td>\n";
+    echo "    </tr>\n";
+    echo "    <tr>\n";
+    echo "      <td width=\"5\" valign=\"top\"><img src=\"" . $siteurl . "/images/dot_clear.gif\" border=\"0\" width=\"5\" height=\"5\" alt=\"\"></td>\n";
+    echo "      <td width=\"100%\" valign=\"top\">\n";
 
     return;
 }
 
 function make_footer($link_index=0, $layout="default")
 {
+    global $webmaster, $webmaster_email, $sitetitle, $pagetitle, $siteurl, $webroot;
+
     if ($layout == "article")
     {
 
-		if ($link_index > 0)
-		{
-
-		}
-		else
-		{
-
-		}
-
 ?>
 
+        </div>
+        <div class="document">
+            <p class="footer">
+                Copyright &copy; 2000-2023 <a href="/about.php">Brandon Blackmoor</a>, unless otherwise noted.<br />
+                Permission is granted to copy, distribute, and modify this document under the terms of the <a title="Creative Commons Attribution-ShareAlike 3.0" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0</a> license.<br />
+            </p>
+
+            <div align="center">
+            <div style="margin: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.0em;">
+
+<?php
+
+		echo '<a href="' . $siteurl . '"><img 
+				src="' . $siteurl . '/images/' . $siteslug . '.png"
+				border="0" width="24" height="24" hspace="0" vspace="0"
+				alt="' . $sitetitle . '" style="vertical-align: middle;"/></a> ';
+		echo '<strong><a href="' . $siteurl . '">' . $sitetitle . '</a></strong>' . "\n";
+
+?>
+            </div>
+            </div>
+
+        </div>
         </body>
         </html>
 
@@ -220,6 +405,30 @@ function make_footer($link_index=0, $layout="default")
     }
     else
     {
+        echo "      <p>&nbsp;</p>\n";
+        echo "      <p>&nbsp;</p>\n";
+        echo "      </td>\n";
+        echo "      <td width=\"5\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"5\" height=\"5\" alt=\"\"></td>\n";
+        echo "    </tr>\n";
+        echo "    </table>\n";
+        echo "  </td>\n";
+        echo "  <td width=\"5\" rowspan=\"2\" valign=\"top\" background=\"$siteurl/images/body-bkg-l.gif\" style=\"background: #FFFFFF url('$siteurl/images/body-bkg-l.gif');\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"5\" height=\"5\" alt=\"\"></td>\n";
+        echo "</tr>\n";
+        echo "<tr>\n";
+        echo "  <td width=\"100%\" valign=\"top\" bgcolor=\"#000066\" style=\"background: #000066;\"><img src=\"$siteurl/images/dot_000066.gif\" border=\"0\" width=\"1\" height=\"1\" alt=\"\"></td>\n";
+        echo "</tr>\n";
+        echo "<tr>\n";
+        echo "  <td width=\"100%\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"5\" height=\"5\" alt=\"\"></td>\n";
+        echo "  <td width=\"5\" valign=\"top\"><img src=\"$siteurl/images/dot_clear.gif\" border=\"0\" width=\"5\" height=\"5\" alt=\"\"></td>\n";
+        echo "</tr>\n";
+        echo "<tr>\n";
+        echo "  <td valign=\"top\">&nbsp;</td>\n";
+        echo "</tr>\n";
+        echo "<tr>\n";
+        echo "  <td width=\"100%\" valign=\"top\"><p class=\"footer\">Copyright &copy; 2000-2023 <a href=\"$siteurl/about.php\">Brandon Blackmoor</a></p></td>\n";
+        echo "</tr>\n";
+        echo "</table>\n";
+        echo "<p>&nbsp;</p>\n";
         echo "</body>\n";
         echo "</html>\n";
     }
