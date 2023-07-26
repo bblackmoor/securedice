@@ -14,6 +14,16 @@ if (!isset($data["op"]))
     $data["op"] = '';
 }
 
+if (!isset($data["verify_id"]) || $data["verify_id"] == '--')
+{
+	$data["verify_id"] = '';
+}
+
+if (!isset($data["verify_hash"]) || $data["verify_hash"] == '--')
+{
+	$data["verify_hash"] = '0';
+}
+
 /**
  * Displays verification form.
  *
@@ -25,7 +35,7 @@ function displayVerifyForm()
 
 ?>
 
-    <form method="post" action="verify.php">
+    <form method="post" action="verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>">
 
     <table border="0">
     <tr>
@@ -94,6 +104,19 @@ function showVerifyResults()
 {
     global $data, $db;
 
+//XXX
+    $query = mysqli_query($db, "SELECT `results` FROM `secure_dice` WHERE `id` = \"" . intval($data["verify_id"]) . "\" AND `hash` = \"" . mysqli_real_escape_string($db, $data["verify_hash"]) . "\";") or trigger_error("Query Failed!", E_USER_ERROR);
+
+//XXX
+//print_r($query);
+//echo($query);
+//print_r(mysqli_fetch_array($query));
+	// Get the number of rows in the result set
+	$row_cnt = $query->num_rows;
+
+	if($row_cnt > 0)
+	{
+
 ?>
 
     <table border="0">
@@ -121,7 +144,6 @@ function showVerifyResults()
 
 <?php
 
-    $query = mysqli_query($db, "SELECT `results` FROM `secure_dice` WHERE `id` = \"" . intval($data["verify_id"]) . "\" AND `hash` = \"" . mysqli_real_escape_string($db, $data["verify_hash"]) . "\";");
     $data["roll"] = array_shift(mysqli_fetch_array($query));
 
     echo formatDiceResults($data["roll"]);
@@ -131,6 +153,16 @@ function showVerifyResults()
     </td>
     </tr>
     </table>
+
+<?php
+
+    }
+	else
+	{
+		printf("Result set has %d rows.\n", $row_cnt);
+	}
+	
+?>
 
     <p>
     <input type="button" name="roll_again" value="Roll Again" onclick="location.href='index.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>';" />
@@ -161,7 +193,7 @@ make_header($pagetitle, "article", $keywords);
     </p>
 
     <p>
-    Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the <a href="verify.php">verification page</a> to ensure that the dice results are genuine.
+    Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the <a href="verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>">verification page</a> to ensure that the dice results are genuine.
     </p>
 
 <?php

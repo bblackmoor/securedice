@@ -1,17 +1,5 @@
 <?php
 
-// Pre-push checklist:
-/*
- * $data["bypass"] = 'XXX';
- */
-
-/*
- * This is an example of the index.php file.
- * You will need to modify it for your site before using it.
- * Search for 'XXX'.
- *
- */
-
 ini_set( 'display_errors', 1 );
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
@@ -34,11 +22,11 @@ $keywords   = "secure,dice,roller,roleplaying,role-playing,game";
 
 if (isset($data["bypass"]) && $data["bypass"] != '--')
 {
-	$data["bypass"] = 'XXX';
+//	$data["bypass"] = $data["bypass-captcha"];
 }
 else
 {
-	$data["bypass"] = '--';
+	$data["bypass"] = '';
 }
 
 if (!isset($data["op"]) || $data["op"] == '--')
@@ -209,7 +197,7 @@ function displayDiceForm($data)
 
 <?php
 
-if ($data['bypass'] == 'bypass')
+if ($data['bypass'] == $data["bypass-captcha"])
 { 
 	echo '<form method="post" action="index.php" onsubmit="return true;">';
 } 
@@ -540,9 +528,9 @@ for ($i = 1000; $i >=1; $i--)
 			<td valign="top">
 <?php
 
-if ($data['bypass'] == 'bypass')
+if ($data['bypass'] == $data["bypass-captcha"])
 { 
-	echo '<input type="hidden" name="bypass" value="bypass" />';
+	echo '<input type="hidden" name="bypass" value="' . $data["bypass-captcha"] . '" />';
 }
 else
 {
@@ -1407,7 +1395,7 @@ else
     </p>
 
     <p>
-    Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the <a href="verify.php">verification page</a> to ensure that the dice results are genuine.
+    Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the <a href="verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>">verification page</a> to ensure that the dice results are genuine.
     </p>
 
 	<!-- <p style="color: darkblue; border: double darkblue; margin: 15px; padding: 10px;">

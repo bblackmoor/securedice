@@ -15,11 +15,12 @@
  * $siteurl         = 'XXX'; // example: 'https://www.example.org'
  * $webroot         = 'XXX'; // example: '/home/sdexample/example.org'
 
- * $vars['smtp_server']   = 'XXX'; // example: 'smtp.example.com'
- * $vars['from_name']     = 'XXX'; // example: 'Secure Dice Site Example'
- * $vars['from_email']    = 'XXX'; // example: 'webmaster@example.org'
- * $vars['from_password'] = 'XXX'; // example: 'examplepassword'
- * $vars['data-sitekey']  = 'XXX'; // example: 'example0123456789'
+ * $vars['smtp_server']    = 'XXX'; // example: 'smtp.example.com'
+ * $vars['from_name']      = 'XXX'; // example: 'Secure Dice Site Example'
+ * $vars['from_email']     = 'XXX'; // example: 'webmaster@example.org'
+ * $vars['from_password']  = 'XXX'; // example: 'examplepassword'
+ * $vars['data-sitekey']   = 'XXX'; // example: 'example0123456789'
+ * $vars['bypass-captcha'] = 'XXX'; // example: 'examplesecret'
  */
 
 
@@ -38,7 +39,7 @@ $host            = 'XXX'; // example: 'db.example.org'
 $username        = 'XXX'; // example: 'exampleuser'
 $passwd          = 'XXX'; // example: 'examplepassword'
 $database        = 'XXX'; // example: 'example_org'
-                                                                     
+
 $webmaster       = 'XXX'; // example: 'Example Name'
 $webmaster_email = 'XXX'; // example: 'ename@example.net'
 $sitetitle       = 'XXX'; // example: 'Secure Dice Site Example'
@@ -46,12 +47,13 @@ $siteslug        = 'XXX'; // example: 'sdexample'
 $pagetitle       = 'XXX'; // example: 'Secure Dice Page Example'
 $siteurl         = 'XXX'; // example: 'https://www.example.org'
 $webroot         = 'XXX'; // example: '/home/sdexample/example.org'
-                                                                     
-$vars['smtp_server']   = 'XXX'; // example: 'smtp.example.com'
-$vars['from_name']     = 'XXX'; // example: 'Secure Dice Site Example'
-$vars['from_email']    = 'XXX'; // example: 'webmaster@example.org'
-$vars['from_password'] = 'XXX'; // example: 'examplepassword'
-$vars['data-sitekey']  = 'XXX'; // example: 'example0123456789'
+
+$vars['smtp_server']    = 'XXX'; // example: 'smtp.example.com'
+$vars['from_name']      = 'XXX'; // example: 'Secure Dice Site Example'
+$vars['from_email']     = 'XXX'; // example: 'webmaster@example.org'
+$vars['from_password']  = 'XXX'; // example: 'examplepassword'
+$vars['data-sitekey']   = 'XXX'; // example: 'example0123456789'
+$vars['bypass-captcha'] = 'XXX'; // example: 'examplesecret'
 
 $data = moveTrimmedToArray($vars, $data);
 
@@ -61,6 +63,8 @@ $data = moveTrimmedToArray($vars, $data);
 function connect_to_db()
 {
     global $host, $username, $passwd, $database, $siteslug;
+
+	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     if (!($mysql = mysqli_connect($host, $username, $passwd)))
     {
