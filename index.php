@@ -1383,7 +1383,7 @@ else
 	<h1><?php echo $pagetitle; ?></h1>
 
 	<p>
-	Copyright © 2005-2023 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
+	Copyright &copy; 2005-2024 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
 	Licensed under the GNU General Public License v3.0:
 	<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a><br />
 	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a><br />
@@ -1397,10 +1397,6 @@ else
     <p>
     Email from the dice server includes a MD5 checksum which can be used to verify that the dice roll sent to you has not been modified. You can type the checksum into the <a href="verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>">verification page</a> to ensure that the dice results are genuine.
     </p>
-
-	<!-- <p style="color: darkblue; border: double darkblue; margin: 15px; padding: 10px;">
-	<b>Note:</b> Source is now in github.<br /> -- bblackmoor, 2023-03-02
-	</p> -->
 	
 <?php
 

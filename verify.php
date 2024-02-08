@@ -181,7 +181,7 @@ make_header($pagetitle, "article", $keywords);
     <h1><?php echo $pagetitle; ?></h1>
 
 	<p>
-	Copyright © 2005-2023 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
+	Copyright &copy; 2005-2024 Brandon Blackmoor <a href="mailto:bblackmoor@blackgate.net?subject=Secure%20Dice">&lt;bblackmoor@blackgate.net&gt;</a><br />
 	Licensed under the GNU General Public License v3.0:
 	<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a><br />
 	Source: <a href="https://github.com/bblackmoor/securedice">https://github.com/bblackmoor/securedice</a><br />

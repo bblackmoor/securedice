@@ -240,7 +240,7 @@ function make_header($pagetitle, $layout="default", $keywords="roleplaying,role,
     <title><?php echo $pagetitle; ?></title>
     <meta name="subject" content="<?php echo $pagetitle; ?>" />
     <meta name="keywords" content="<?php echo $keywords; ?>" />
-    <meta name="copyright" content="Copyright 2000-2023 Brandon Blackmoor" />
+    <meta name="copyright" content="Copyright 2005-2024 Brandon Blackmoor" />
     <meta name="author" content="Brandon Blackmoor" />
     <meta name="contact_addr" content="bblackmoor@blackgate.net" />
     <meta name="rating" content="general" />
@@ -268,7 +268,7 @@ function make_header($pagetitle, $layout="default", $keywords="roleplaying,role,
     <title><?php echo $pagetitle; ?></title>
     <meta name="subject" content="<?php echo $pagetitle; ?>" />
     <meta name="keywords" content="<?php echo $keywords; ?>" />
-    <meta name="copyright" content="Copyright 2000-2023 Brandon Blackmoor" />
+    <meta name="copyright" content="Copyright 2005-2024 Brandon Blackmoor" />
     <meta name="author" content="Brandon Blackmoor" />
     <meta name="contact_addr" content="bblackmoor@blackgate.net" />
     <meta name="rating" content="general" />
@@ -306,7 +306,7 @@ function make_header($pagetitle, $layout="default", $keywords="roleplaying,role,
         echo "  <title>".$pagetitle."</title>\n";
         echo "  <meta name=\"subject\" content=\"".$pagetitle."\" />\n";
         echo "  <meta name=\"keywords\" content=\"".$keywords."\" />\n";
-        echo "  <meta name=\"copyright\" content=\"Copyright 2000-2023 Brandon Blackmoor\" />\n";
+        echo "  <meta name=\"copyright\" content=\"Copyright 2005-2024 Brandon Blackmoor\" />\n";
         echo "  <meta name=\"author\" content=\"Brandon Blackmoor\" />\n";
         echo "  <meta name=\"contact-addr\" content=\"bblackmoor@blackgate.net\" />\n";
         echo "  <meta name=\"rating\" content=\"general\" />\n";
@@ -381,7 +381,7 @@ function make_footer($link_index=0, $layout="default")
         </div>
         <div class="document">
             <p class="footer">
-                Copyright &copy; 2000-2023 <a href="/about.php">Brandon Blackmoor</a>, unless otherwise noted.<br />
+                Copyright &copy; 2005-2024 <a href="/about.php">Brandon Blackmoor</a>.<br />
                 Permission is granted to copy, distribute, and modify this document under the terms of the <a title="Creative Commons Attribution-ShareAlike 3.0" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0</a> license.<br />
             </p>
 
@@ -429,7 +429,7 @@ function make_footer($link_index=0, $layout="default")
         echo "  <td valign=\"top\">&nbsp;</td>\n";
         echo "</tr>\n";
         echo "<tr>\n";
-        echo "  <td width=\"100%\" valign=\"top\"><p class=\"footer\">Copyright &copy; 2000-2023 <a href=\"$siteurl/about.php\">Brandon Blackmoor</a></p></td>\n";
+        echo "  <td width=\"100%\" valign=\"top\"><p class=\"footer\">Copyright &copy; 2005-2024 <a href=\"$siteurl/about.php\">Brandon Blackmoor</a></p></td>\n";
         echo "</tr>\n";
         echo "</table>\n";
         echo "<p>&nbsp;</p>\n";
