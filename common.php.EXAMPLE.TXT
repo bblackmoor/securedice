@@ -372,6 +372,7 @@ function make_body($layout)
 function make_footer($link_index=0, $layout="default")
 {
     global $webmaster, $webmaster_email, $sitetitle, $pagetitle, $siteurl, $webroot;
+    global $siteslug;
 
     if ($layout == "article")
     {
