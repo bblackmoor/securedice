@@ -20,7 +20,6 @@
  * $vars['from_email']     = 'XXX'; // example: 'webmaster@example.org'
  * $vars['from_password']  = 'XXX'; // example: 'examplepassword'
  * $vars['data-sitekey']   = 'XXX'; // example: 'example0123456789'
- * $vars['bypass-captcha'] = 'XXX'; // example: 'examplesecret'
  */
 
 
@@ -53,7 +52,6 @@ $vars['from_name']      = 'XXX'; // example: 'Secure Dice Site Example'
 $vars['from_email']     = 'XXX'; // example: 'webmaster@example.org'
 $vars['from_password']  = 'XXX'; // example: 'examplepassword'
 $vars['data-sitekey']   = 'XXX'; // example: 'example0123456789'
-$vars['bypass-captcha'] = 'XXX'; // example: 'examplesecret'
 
 $data = moveTrimmedToArray($vars, $data);
 
@@ -276,19 +274,6 @@ function make_header($pagetitle, $layout="default", $keywords="roleplaying,role,
     <link rel="stylesheet" type="text/css" href="/styles/basic.css" />
     <link rel="SHORTCUT ICON" href="/images/<?php echo $siteslug; ?>.ico" />
 	<script data-ad-client="ca-pub-4678893198723665" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-	<script type="text/javascript">
-		function validateRecaptcha() {
-			var response = grecaptcha.getResponse();
-			if (response.length === 0) {
-				alert("Try again to click the reCAPTCHA");
-				return false;
-			} else {
-				//alert("validated");
-				return true;
-			}
-		}
-	</script>
 </head>
 <body>
 <div style="position: absolute; height: 24px; width: 24px; top: 0px; left: 0px;"><a href="<?php echo $siteurl; ?>" ><img src="<?php echo $siteurl; ?>/images/<?php echo $siteslug; ?>.png" border="0" width="24" height="24" alt="<?php echo $sitetitle; ?>" title="return to <?php echo $sitetitle; ?>" /></a></div>

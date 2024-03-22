@@ -20,15 +20,6 @@ $keywords   = "secure,dice,roller,roleplaying,role-playing,game";
 //$data = array();
 //$data = moveTrimmedToArray($vars, $data);
 
-if (isset($data["bypass"]) && $data["bypass"] != '--')
-{
-//	$data["bypass"] = $data["bypass-captcha"];
-}
-else
-{
-	$data["bypass"] = '';
-}
-
 if (!isset($data["op"]) || $data["op"] == '--')
 {
 	$data["op"] = '';
@@ -195,19 +186,7 @@ function displayDiceForm($data)
 	<?php echo getDiceRolled(); ?> dice rolled since 2005-11-06.
 	</p>
 
-<?php
-
-if ($data['bypass'] == $data["bypass-captcha"])
-{ 
-	echo '<form method="post" action="index.php" onsubmit="return true;">';
-} 
-else
-{ 
-	echo '<form method="post" action="index.php" onsubmit="return validateRecaptcha();">';
-}
-
-?>
-
+	<form method="post" action="index.php" onsubmit="return true;">
 		<table border="0" cellpadding="4">
 		<tr>
 			<td align="right" valign="top">
@@ -525,20 +504,7 @@ for ($i = 1000; $i >=1; $i--)
 			<td align="right" valign="top">
 			&nbsp;
 			</td>
-			<td valign="top">
-<?php
-
-if ($data['bypass'] == $data["bypass-captcha"])
-{ 
-	echo '<input type="hidden" name="bypass" value="' . $data["bypass-captcha"] . '" />';
-}
-else
-{
-	echo '<div class="g-recaptcha" data-sitekey="' . $data['data-sitekey'] . '"></div>';
-}
-
-?>
-				
+			<td valign="top">				
 				<input type="hidden" name="op" value="roll" />
 				<input type="submit" name="submit" id="submit" value="Roll The Dice" />
 				<input type="button" name="verify_roll" value="Verify A Roll" onclick="location.href='verify.php<?php echo ((!empty($data['bypass']) && $data['bypass'] != '--') ? "?bypass=" . $data['bypass'] : ''); ?>';" />
